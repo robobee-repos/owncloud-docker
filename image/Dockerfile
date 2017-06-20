@@ -53,6 +53,12 @@ RUN curl -fsSL -o owncloud.tar.bz2 \
 	&& tar -xjf owncloud.tar.bz2 -C /usr/src/ \
 && rm owncloud.tar.bz2
 
+RUN set -x \
+  && DEBIAN_FRONTEND=noninteractive \
+  && apt-get update \
+  && apt-get install -y rsync \
+  && rm -rf /var/lib/apt/lists/*
+
 # Php configuration.
 
 ENV PHP_MAX_EXECUTION_TIME 300
