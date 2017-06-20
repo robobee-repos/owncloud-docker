@@ -18,11 +18,12 @@ clean: rm ##@targets Removes docker containers and created files.
 rm: ##@targets Removes docker containers.
 	export ROOT_DIR="$(ROOT_DIR)" \
 	&& export NGINX_CONF_DIR="$(NGINX_CONF_DIR)" \
+	&& docker-compose -f test.yaml stop \
 	&& docker-compose -f test.yaml rm
 
 setup:
 	if ! [ -d $(ROOT_DIR) ]; then \
 	mkdir -p $(ROOT_DIR); \
-	chmod o+rwX $(ROOT_DIR); \
+	sudo chown 33:33 -R $(ROOT_DIR); \
 	fi
 .PHONY: setup

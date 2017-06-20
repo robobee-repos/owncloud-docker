@@ -4,6 +4,7 @@ services:
 
   owncloud:
     image: erwin82/owncloud:latest
+    user: "33:33"
     depends_on:
       - mysql
     links:
