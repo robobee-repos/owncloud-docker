@@ -59,6 +59,9 @@ RUN set -x \
   && apt-get install -y rsync \
   && rm -rf /var/lib/apt/lists/*
 
+RUN set -x \
+  && docker-php-ext-install ctype
+
 # Php configuration.
 
 ENV PHP_MAX_EXECUTION_TIME 300
