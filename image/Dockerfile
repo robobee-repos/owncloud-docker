@@ -102,6 +102,14 @@ ADD rootfs/rsyncd.conf /etc/rsyncd.conf
 
 EXPOSE 8873
 
+# data directory
+
+RUN set -x \
+  && mkdir -p /data \
+  && chown www-data.www-data /data
+
+VOLUME /data
+
 # Finishing up.
 
 ADD rootfs/docker-entrypoint.sh /docker-entrypoint-in.sh
