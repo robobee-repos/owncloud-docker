@@ -89,36 +89,21 @@ RUN set -x \
   && mkdir -p /php-in \
   && mkdir -p /php-fpm-in
 
-RUN { \
-    echo '[www]'; \
-    echo 'pm = dynamic'; \
-    echo 'pm.max_children = ${PHP_FPM_MAX_CHILDREN}'; \
-    echo 'pm.start_servers = ${PHP_FPM_START_SERVERS}'; \
-    echo 'pm.min_spare_servers = ${PHP_FPM_MIN_SPARE_SERVERS}'; \
-    echo 'pm.max_spare_servers = ${PHP_FPM_MAX_SPARE_SERVERS}'; \
-    echo 'pm.status_path = /phpstatus'; \
-    echo 'ping.path = /ping'; \
-    echo 'ping.response = pong'; \
-} > /usr/local/etc/php-fpm.d/99-www.conf
+ADD rootfs/www.conf /usr/local/etc/php-fpm.d/99-www.conf
 
-# set recommended PHP.ini settings
-# see https://secure.php.net/manual/en/opcache.installation.php
-RUN { \
-    echo 'opcache.memory_consumption=${PHP_OPCACHE_MEMORY_CONSUMPTION_MB}'; \
-    echo 'opcache.interned_strings_buffer=8'; \
-    echo 'opcache.max_accelerated_files=4000'; \
-    echo 'opcache.revalidate_freq=2'; \
-    echo 'opcache.fast_shutdown=1'; \
-    echo 'opcache.enable_cli=${PHP_OPCACHE_ENABLE_CLI}'; \
-    echo 'opcache.enable=${PHP_OPCACHE_ENABLE}'; \
-    echo 'opcache.revalidate_freq=60'; \
-} > /usr/local/etc/php/conf.d/opcache-recommended.ini
+ADD rootfs/opcache-recommended.ini /usr/local/etc/php-fpm.d/opcache-recommended.ini
 
-RUN { \
-    echo 'max_execution_time=${PHP_MAX_EXECUTION_TIME}'; \
-    echo 'memory_limit=${PHP_MEMORY_LIMIT_MB}M'; \
-    echo 'realpath_cache_size = 1MB'; \
-} > /usr/local/etc/php/conf.d/99-conf.ini
+ADD rootfs/conf.ini /usr/local/etc/php-fpm.d/99-conf.ini
+
+# supervisor
+
+ADD rootfs/supervisord.conf /etc/supervisord.conf
+
+# rsync daemon
+
+ADD rootfs/rsyncd.conf /etc/rsyncd.conf
+
+EXPOSE 8873
 
 # Finishing up.
 
