@@ -18,7 +18,7 @@ daemon can be used to backup the ownCloud installation and the data directory.
 | PHP_FPM_START_SERVERS | 2 | pm.start_servers |
 | PHP_FPM_MIN_SPARE_SERVERS | 1 | pm.min_spare_servers |
 | PHP_FPM_MAX_SPARE_SERVERS | 3 | pm.max_spare_servers |
-| PHP_OPCACHE_ENABLE_CLI | 0 | opcache.enable_cli |
+| PHP_OPCACHE_ENABLE_CLI | 1 | opcache.enable_cli |
 | PHP_OPCACHE_ENABLE | 1 | opcache.enable |
 | PHP_OPCACHE_MEMORY_CONSUMPTION_MB | 128 | opcache.memory_consumption |
 
