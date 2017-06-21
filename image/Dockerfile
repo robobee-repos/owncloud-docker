@@ -54,7 +54,8 @@ RUN curl -fsSL -o owncloud.tar.bz2 \
 && rm owncloud.tar.bz2
 
 RUN set -x \
-  && docker-php-ext-install ctype
+  && docker-php-ext-install ctype \
+  && docker-php-ext-install pcntl
 
 RUN set -x \
   && DEBIAN_FRONTEND=noninteractive \
