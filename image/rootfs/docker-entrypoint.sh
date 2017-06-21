@@ -52,7 +52,7 @@ function sync_owncloud() {
   if [ ! -e '/var/www/html/version.php' ]; then
     return
   fi
-  rsync -rlD -v /usr/src/owncloud/. .
+  rsync -rlD -u -v /usr/src/owncloud/. .
 }
 
 copy_php_conf
