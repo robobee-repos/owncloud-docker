@@ -60,7 +60,6 @@ RUN set -x \
   && DEBIAN_FRONTEND=noninteractive \
   && apt-get update \
   && apt-get install -y \
-    cron \
     rsync \
     python-pip \
   && rm -rf /var/lib/apt/lists/* \
@@ -69,8 +68,7 @@ RUN set -x \
   && chmod o+rwX /var/run \
   && mkdir -p /var/log/supervisord \
   && chmod o+rwX /var/log/supervisord \
-  && chmod o+rwX /var/log \
-  && chmod 4755 /usr/sbin/cron
+  && chmod o+rwX /var/log
 
 # Php configuration.
 
