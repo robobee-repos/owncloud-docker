@@ -54,13 +54,23 @@ RUN curl -fsSL -o owncloud.tar.bz2 \
 && rm owncloud.tar.bz2
 
 RUN set -x \
-  && DEBIAN_FRONTEND=noninteractive \
-  && apt-get update \
-  && apt-get install -y rsync \
-  && rm -rf /var/lib/apt/lists/*
+  && docker-php-ext-install ctype
 
 RUN set -x \
-  && docker-php-ext-install ctype
+  && DEBIAN_FRONTEND=noninteractive \
+  && apt-get update \
+  && apt-get install -y \
+    cron \
+    rsync \
+    python-pip \
+  && rm -rf /var/lib/apt/lists/* \
+  && pip install -U  pip setuptools \
+  && easy_install supervisor
+
+# supervisor
+
+ADD rootfs/supervisord.conf /etc/supervisord.conf
+
 
 # Php configuration.
 
@@ -125,4 +135,4 @@ WORKDIR $WEB_ROOT
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
-CMD ["php-fpm"]
+CMD ["supervisord", "-n", "-c", "/etc/supervisord.conf"]
