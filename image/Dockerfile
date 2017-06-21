@@ -71,6 +71,7 @@ RUN set -x \
 
 ADD rootfs/supervisord.conf /etc/supervisord.conf
 
+ADD rootfs/rsyncd.conf /etc/rsyncd.conf
 
 # Php configuration.
 
