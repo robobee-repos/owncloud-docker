@@ -65,13 +65,12 @@ RUN set -x \
     python-pip \
   && rm -rf /var/lib/apt/lists/* \
   && pip install -U  pip setuptools \
-  && easy_install supervisor
-
-# supervisor
-
-ADD rootfs/supervisord.conf /etc/supervisord.conf
-
-ADD rootfs/rsyncd.conf /etc/rsyncd.conf
+  && easy_install supervisor \
+  && chmod o+rwX /var/run \
+  && mkdir -p /var/log/supervisord \
+  && chmod o+rwX /var/log/supervisord \
+  && chmod o+rwX /var/log \
+  && chmod 4755 /usr/sbin/cron
 
 # Php configuration.
 
