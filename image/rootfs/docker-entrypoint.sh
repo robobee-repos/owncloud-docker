@@ -10,8 +10,9 @@ function copy_file() {
   dir="$1"; shift
   mod="$1"; shift
   if [ -e "$file" ]; then
-    cp "$file" $dir/"$file"
-    chmod $mod $dir/"$file"
+    mkdir -p "$dir"
+    cp "$file" "$dir/$file"
+    chmod $mod "$dir/$file"
   fi
 }
 
