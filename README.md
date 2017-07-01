@@ -40,9 +40,8 @@ daemon can be used to backup the ownCloud installation and the data directory.
 
 | Source | Destination |
 | ------------- | ------------- |
-| /php-in/*.ini | /usr/local/etc/php/conf.d/ |
+| /php-in/*.ini | /usr/local/etc/php/ |
 | /php-fpm-in/*.conf | /usr/local/etc/php-fpm.d/ |
-| /owncloud-in/config.php | /var/www/html/config/config.php |
 
 ## Test
 
