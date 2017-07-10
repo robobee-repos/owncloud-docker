@@ -73,25 +73,28 @@ RUN set -x \
 
 # Php configuration.
 
+ENV WEB_ROOT /var/www/html
+ENV WEB_USER www-data
 ENV PHP_MAX_EXECUTION_TIME 300
 ENV PHP_MEMORY_LIMIT_MB 128
 ENV PHP_FPM_MAX_CHILDREN 5
 ENV PHP_FPM_START_SERVERS 2
 ENV PHP_FPM_MIN_SPARE_SERVERS 1
 ENV PHP_FPM_MAX_SPARE_SERVERS 3
-ENV PHP_OPCACHE_ENABLE_CLI 1
+ENV PHP_OPCACHE_ENABLE_CLI 0
 ENV PHP_OPCACHE_ENABLE 1
 ENV PHP_OPCACHE_MEMORY_CONSUMPTION_MB 128
+ENV PHP_OPCACHE_MAX_ACCELERATED_FILES 6000
 
 RUN set -x \
   && mkdir -p /php-in \
   && mkdir -p /php-fpm-in
 
-ADD rootfs/www.conf /usr/local/etc/php-fpm.d/99-www.conf
+ADD rootfs/opcache-recommended.ini /usr/local/etc/php/conf.d/zz-opcache-recommended.ini
 
-ADD rootfs/opcache-recommended.ini /usr/local/etc/php-fpm.d/opcache-recommended.ini
+ADD rootfs/conf.ini /usr/local/etc/php/conf.d/zz-conf.ini
 
-ADD rootfs/conf.ini /usr/local/etc/php-fpm.d/99-conf.ini
+ADD rootfs/www.conf /usr/local/etc/php-fpm.d/zz-www.conf
 
 # supervisor
 

@@ -25,8 +25,8 @@ function copy_php_conf() {
     return
   fi
   rsync -v "${dir}/*.ini" /usr/local/etc/php/conf.d/
-}
-
+ }
+ 
 function copy_php_fpm_conf() {
   dir="/php-fpm-in"
   if [ ! -d "${dir}" ]; then
@@ -37,22 +37,23 @@ function copy_php_fpm_conf() {
     return
   fi
   rsync -v "${dir}/*.conf" /usr/local/etc/php-fpm.d/
-}
-
+ }
+ 
 function copy_owncloud() {
-  if [ ! -d /owncloud-in ]; then
+  dir="/owncloud-in"
+  if [ ! -d ${dir} ]; then
     return
   fi
-  cd /owncloud-in
+  cd "${dir}"
   copy_file config.php "$WEB_ROOT/config/" 0644
 }
 
 function sync_owncloud() {
-  cd "$WEB_ROOT"
-  if [ ! -e '/var/www/html/version.php' ]; then
+  cd "${WEB_ROOT}"
+  if [ ! -e 'version.php' ]; then
     return
   fi
-  rsync -rlD -u -v /usr/src/owncloud/. .
+  rsync -rlD -u /usr/src/owncloud/. .
 }
 
 copy_php_conf
@@ -60,6 +61,6 @@ copy_php_fpm_conf
 copy_owncloud
 sync_owncloud
 
-cd "$WEB_ROOT"
 echo "Running as `id`"
+cd "$WEB_ROOT"
 exec bash -x -- /entrypoint.sh "$@"
