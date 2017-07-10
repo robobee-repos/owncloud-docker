@@ -57,19 +57,11 @@ RUN set -x \
   && docker-php-ext-install ctype \
   && docker-php-ext-install pcntl
 
-RUN set -x \
-  && DEBIAN_FRONTEND=noninteractive \
-  && apt-get update \
-  && apt-get install -y \
-    rsync \
-    python-pip \
-  && rm -rf /var/lib/apt/lists/* \
-  && pip install -U  pip setuptools \
-  && easy_install supervisor \
-  && chmod o+rwX /var/run \
-  && mkdir -p /var/log/supervisord \
-  && chmod o+rwX /var/log/supervisord \
-  && chmod o+rwX /var/log
+# Install Rsync
+
+RUN apt-get update && apt-get install -y \
+  rsync \
+  && rm -rf /var/lib/apt/lists/*
 
 # Php configuration.
 
@@ -96,16 +88,6 @@ ADD rootfs/conf.ini /usr/local/etc/php/conf.d/zz-conf.ini
 
 ADD rootfs/www.conf /usr/local/etc/php-fpm.d/zz-www.conf
 
-# supervisor
-
-ADD rootfs/supervisord.conf /etc/supervisord.conf
-
-# rsync daemon
-
-ADD rootfs/rsyncd.conf /etc/rsyncd.conf
-
-EXPOSE 8873
-
 # data directory
 
 RUN set -x \
@@ -130,4 +112,4 @@ WORKDIR $WEB_ROOT
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
-CMD ["supervisord", "-n", "-c", "/etc/supervisord.conf"]
+CMD ["php-fpm"]
