@@ -57,6 +57,12 @@ function sync_owncloud() {
   rsync -rlD -u /usr/src/owncloud/. .
 }
 
+CRON=1
+
+if [[ "$3" == "cron.php" ]]; then
+  CRON
+fi
+
 copy_php_conf
 copy_php_fpm_conf
 copy_owncloud
