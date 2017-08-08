@@ -10,12 +10,14 @@ services:
     links:
       - mysql
     volumes:
-      - ${ROOT_DIR}:/var/www/html
+      - ${ROOT_DIR}/html:/var/www/html
 
   mysql:
-    image: mysql:5.7
+    image: bitnami/mariadb:latest
     environment:
       MYSQL_ROOT_PASSWORD: example
+    volumes:
+      - ${ROOT_DIR}/bitnami/mariadb:/bitnami/mariadb
 
   nginx:
     image: erwin82/nginx:latest
@@ -25,4 +27,4 @@ services:
       - owncloud
     volumes:
       - ${NGINX_CONF_DIR}:/nginx-in
-      - ${ROOT_DIR}:/var/www/html
+      - ${ROOT_DIR}/html:/var/www/html

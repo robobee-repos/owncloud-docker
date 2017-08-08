@@ -5,11 +5,11 @@ NAME := owncloud
 ROOT_DIR:=$(shell realpath root)
 NGINX_CONF_DIR:=$(shell realpath nginx-in)
 
-up: setup ##@targets Starts docker compose.
+test: setup ##@targets Starts docker compose.
 	export ROOT_DIR="$(ROOT_DIR)" \
 	&& export NGINX_CONF_DIR="$(NGINX_CONF_DIR)" \
 	&& docker-compose -p ${NAME} -f test.yaml up
-.PHONY: up
+.PHONY: test
 
 clean: rm ##@targets Removes docker containers and created files.
 	if [ -d $(ROOT_DIR) ]; then \
@@ -23,8 +23,12 @@ rm: ##@targets Removes docker containers.
 	&& docker-compose -p ${NAME} -f test.yaml rm
 
 setup:
-	if ! [ -d $(ROOT_DIR) ]; then \
-	mkdir -p $(ROOT_DIR); \
-	sudo chown 33:33 -R $(ROOT_DIR); \
+	if ! [ -d $(ROOT_DIR)/html ]; then \
+	mkdir -p $(ROOT_DIR)/html; \
 	fi
+	if ! [ -d $(ROOT_DIR)/bitnami/mariadb ]; then \
+	mkdir -p $(ROOT_DIR)/bitnami/mariadb; \
+	fi
+	sudo chown 33:33 -R $(ROOT_DIR)/html
+	sudo chown 1001:1001 -R $(ROOT_DIR)/bitnami/mariadb
 .PHONY: setup
