@@ -15,7 +15,7 @@ services:
   mysql:
     image: bitnami/mariadb:latest
     environment:
-      MYSQL_ROOT_PASSWORD: example
+      MARIADB_ROOT_USER: "root"
     volumes:
       - ${ROOT_DIR}/bitnami/mariadb:/bitnami/mariadb
 
