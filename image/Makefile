@@ -1,6 +1,6 @@
 REPOSITORY := erwin82
 NAME := owncloud
-VERSION ?= v10.0.2-fpm-r4
+VERSION ?= v10.0.2-fpm-r5
 
 build: _build ##@targets Builds the docker image.
 

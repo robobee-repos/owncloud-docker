@@ -57,16 +57,17 @@ function sync_owncloud() {
   rsync -rlD -u /usr/src/owncloud/. .
 }
 
-CRON=1
-
+CRON=0
 if [[ "$3" == "cron.php" ]]; then
-  CRON
+  CRON=1
 fi
 
-copy_php_conf
-copy_php_fpm_conf
-copy_owncloud
-sync_owncloud
+if [[ $CRON == 0 ]]; then
+  copy_php_conf
+  copy_php_fpm_conf
+  copy_owncloud
+  sync_owncloud
+fi
 
 echo "Running as `id`"
 cd "$WEB_ROOT"
