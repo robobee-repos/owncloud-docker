@@ -5,15 +5,19 @@ services:
   owncloud:
     image: erwin82/owncloud:latest
     user: "33:33"
-    depends_on:
-      - mysql
     links:
-      - mysql
+      - db
+      - redis
     volumes:
       - ${ROOT_DIR}/html:/var/www/html
       - ${ROOT_DIR}/data:/data
 
-  mysql:
+  redis:
+    image: erwin82/redis-unpriv:latest
+    ports:
+      - 6379:6379
+
+  db:
     image: bitnami/mariadb:latest
     environment:
       ALLOW_EMPTY_PASSWORD: "no"
