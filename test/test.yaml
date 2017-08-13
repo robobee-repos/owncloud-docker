@@ -22,6 +22,7 @@ services:
     environment:
       ALLOW_EMPTY_PASSWORD: "no"
       MARIADB_ROOT_USER: "root"
+      MARIADB_ROOT_PASSWORD: "sum0cee3iishi5ahcae2Yahfaiy9zoev"
     volumes:
       - ${ROOT_DIR}/bitnami/mariadb:/bitnami/mariadb
 
