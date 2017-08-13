@@ -30,7 +30,6 @@ daemon can be used to backup the ownCloud installation and the data directory.
 | Port | Description |
 | ------------- | ----- |
 | 9000  | php-fpm |
-| 8873 | rsync daemon |
 
 ## Directories
 
@@ -56,13 +55,8 @@ from `localhost:8080`.
 docker-compose -f test.yaml up
 ```
 
-## Rsync
+## Optimize php-fpm
 
-The rsync daemon is running and can be used to backup the directories
-
-* `/var/www/html`
-* `/data`
-
-```
-rsync -rv rsync://owncloud:8873/data/. .
-```
+ ```
+find /var/www/html -iname *.php|wc -l
+ ```
