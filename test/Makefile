@@ -26,9 +26,13 @@ setup:
 	if ! [ -d $(ROOT_DIR)/html ]; then \
 	mkdir -p $(ROOT_DIR)/html; \
 	fi
+	if ! [ -d $(ROOT_DIR)/data ]; then \
+	mkdir -p $(ROOT_DIR)/data; \
+	fi
 	if ! [ -d $(ROOT_DIR)/bitnami/mariadb ]; then \
 	mkdir -p $(ROOT_DIR)/bitnami/mariadb; \
 	fi
 	sudo chown 33:33 -R $(ROOT_DIR)/html
+	sudo chown 33:33 -R $(ROOT_DIR)/data
 	sudo chown 1001:1001 -R $(ROOT_DIR)/bitnami/mariadb
 .PHONY: setup

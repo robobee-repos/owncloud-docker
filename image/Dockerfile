@@ -69,11 +69,14 @@ ENV WEB_ROOT /var/www/html
 ENV WEB_USER www-data
 ENV PHP_MAX_EXECUTION_TIME 300
 ENV PHP_MEMORY_LIMIT_MB 128
-ENV PHP_FPM_MAX_CHILDREN 5
+ENV PHP_FPM_MAX_CHILDREN 10
 ENV PHP_FPM_START_SERVERS 2
-ENV PHP_FPM_MIN_SPARE_SERVERS 1
-ENV PHP_FPM_MAX_SPARE_SERVERS 3
-ENV PHP_OPCACHE_ENABLE_CLI 0
+ENV PHP_FPM_MIN_SPARE_SERVERS 2
+ENV PHP_FPM_MAX_SPARE_SERVERS 5
+ENV PHP_FPM_MAX_REQUESTS 500
+ENV PHP_FPM_REQUEST_SLOWLOG_TIMEOUT 30s
+ENV PHP_FPM_CATCH_WORKERS_OUTPUT 1
+ENV PHP_OPCACHE_ENABLE_CLI 1
 ENV PHP_OPCACHE_ENABLE 1
 ENV PHP_OPCACHE_MEMORY_CONSUMPTION_MB 128
 ENV PHP_OPCACHE_MAX_ACCELERATED_FILES 6000
@@ -102,6 +105,7 @@ ADD rootfs/docker-entrypoint.sh /docker-entrypoint-in.sh
 ADD rootfs/docker-entrypoint-old.sh /entrypoint.sh
 
 RUN set -x \
+  && ln -sf /dev/stdout /var/log/php-fpm.log.slow \
   && chmod +x /docker-entrypoint-in.sh \
   && chmod +x /entrypoint.sh \
   && mv /docker-entrypoint-in.sh /docker-entrypoint.sh

@@ -11,16 +11,19 @@ services:
       - mysql
     volumes:
       - ${ROOT_DIR}/html:/var/www/html
+      - ${ROOT_DIR}/data:/data
 
   mysql:
     image: bitnami/mariadb:latest
     environment:
+      ALLOW_EMPTY_PASSWORD: "no"
       MARIADB_ROOT_USER: "root"
     volumes:
       - ${ROOT_DIR}/bitnami/mariadb:/bitnami/mariadb
 
   nginx:
     image: erwin82/nginx:latest
+    command: ls -al /var/run/
     ports:
       - 8080:8080
     links:
