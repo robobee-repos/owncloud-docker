@@ -105,7 +105,7 @@ ADD rootfs/docker-entrypoint.sh /docker-entrypoint-in.sh
 ADD rootfs/docker-entrypoint-old.sh /entrypoint.sh
 
 RUN set -x \
-  && ln -sf /dev/stdout /var/log/php-fpm.log.slow \
+  && ln -sf /dev/stdout /var/log/php-fpm-slow.log \
   && chmod +x /docker-entrypoint-in.sh \
   && chmod +x /entrypoint.sh \
   && mv /docker-entrypoint-in.sh /docker-entrypoint.sh
