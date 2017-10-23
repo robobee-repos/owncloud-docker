@@ -4,30 +4,30 @@ services:
 
   owncloud:
     image: erwin82/owncloud:latest
-    user: "33:33"
     links:
       - db
       - redis
+    environment:
+      DEBUG: "true"
     volumes:
       - ${ROOT_DIR}/html:/var/www/html
       - ${ROOT_DIR}/data:/data
 
   redis:
     image: erwin82/redis-unpriv:latest
-    ports:
-      - 6379:6379
 
   db:
     image: bitnami/mariadb:latest
     environment:
-      ALLOW_EMPTY_PASSWORD: "no"
-      MARIADB_ROOT_USER: "root"
+      ALLOW_EMPTY_PASSWORD: "yes"
+      MARIADB_USER: "ownclouddb"
+      MARIADB_PASSWORD: "ownclouddb"
+      MARIADB_DATABASE: "ownclouddb"
     volumes:
       - ${ROOT_DIR}/bitnami/mariadb:/bitnami/mariadb
 
   nginx:
     image: erwin82/nginx:latest
-    command: ls -al /var/run/
     ports:
       - 8080:8080
     links:

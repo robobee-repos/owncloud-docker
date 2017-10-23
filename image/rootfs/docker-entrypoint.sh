@@ -1,5 +1,9 @@
 #!/bin/bash
-set -xe
+set -e
+
+if [[ "$DEBUG" == "true" ]]; then
+  set -x
+fi
 
 function check_files_exists() {
   ls "$1" 1> /dev/null 2>&1
@@ -51,11 +55,10 @@ function copy_owncloud() {
 
 function sync_owncloud() {
   cd "${WEB_ROOT}"
-  if [ ! -e 'version.php' ]; then
-    return
-  fi
   rsync -rlD -u /usr/src/owncloud/. .
 }
+
+echo "Running as `id`"
 
 CRON=0
 if [[ "$3" == "cron.php" ]]; then
@@ -69,6 +72,5 @@ if [[ $CRON == 0 ]]; then
   sync_owncloud
 fi
 
-echo "Running as `id`"
 cd "$WEB_ROOT"
-exec bash -x -- /entrypoint.sh "$@"
+exec "$@"
