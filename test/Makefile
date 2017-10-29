@@ -6,7 +6,6 @@ export ROOT_DIR := $(shell realpath ./root)
 export NGINX_CONF_DIR := $(shell realpath ./nginx-in)
 
 test: setup ##@targets Starts docker compose.
-	echo $$NAME
 	docker-compose -p ${NAME} -f test.yaml up
 .PHONY: test
 
@@ -22,15 +21,9 @@ rm: ##@targets Removes docker containers.
 .PHONY: rm
 
 setup:
-	if ! [ -d $(ROOT_DIR)/html ]; then \
-	mkdir -p $(ROOT_DIR)/html; \
-	fi
-	if ! [ -d $(ROOT_DIR)/data ]; then \
-	mkdir -p $(ROOT_DIR)/data; \
-	fi
-	if ! [ -d $(ROOT_DIR)/bitnami/mariadb ]; then \
-	mkdir -p $(ROOT_DIR)/bitnami/mariadb; \
-	fi
+	mkdir -p $(ROOT_DIR)/html
+	mkdir -p $(ROOT_DIR)/data
+	mkdir -p $(ROOT_DIR)/bitnami/mariadb
 	sudo chmod o+rwX $(ROOT_DIR)/html
 	sudo chmod o+rwX $(ROOT_DIR)/data
 	sudo chmod o+rwX $(ROOT_DIR)/bitnami/mariadb

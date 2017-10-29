@@ -42,19 +42,16 @@ ENV DEBUG="false" \
 ADD rootfs/ /
 
 RUN set -x \
-  && mkdir -p /data \
-  && chown www-data.www-data /data
-
-VOLUME /data
-
-RUN set -x \
-  && ln -sf /dev/stdout /var/log/php-fpm-slow.log \
   && chmod +x /*.sh \
+  && mkdir -p /data \
+  && ln -sf /dev/stdout /var/log/php-fpm-slow.log \
   && mv /usr/local/bin/docker-entrypoint.sh /usr/local/bin/docker-entrypoint-old.sh
+
+VOLUME ["/data"]
 
 USER www-data
 
-WORKDIR $WEB_ROOT
+WORKDIR ${WEB_ROOT}
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
