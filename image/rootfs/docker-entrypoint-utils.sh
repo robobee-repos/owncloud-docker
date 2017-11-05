@@ -2,6 +2,7 @@
 set -e
 
 BASH_CMD="bash"
+RSYNC_CMD="$RSYNC_CMD"
 
 function check_files_exists() {
   ls $1 1> /dev/null 2>&1
@@ -29,7 +30,22 @@ function copy_files() {
   if ! check_files_exists "$files"; then
     return
   fi
-  rsync -Lv ${dir}/$files $target/
+  $RSYNC_CMD -Lv ${dir}/$files $target/
+}
+
+function sync_dir() {
+  dir="$1"; shift
+  target="$1"; shift
+  if [ ! -d "${dir}" ]; then
+    echo "${dir} does not exists or is not a directory."
+    exit 1
+  fi
+  if [ ! -d "${target}" ]; then
+    echo "${target} does not exists or is not a directory."
+    exit 1
+  fi
+  cd "${target}"
+  $RSYNC_CMD -rlD -u ${dir}/. .
 }
 
 function do_sed() {
@@ -60,5 +76,6 @@ function set_debug() {
   if [[ "$DEBUG" == "true" ]]; then
     set -x
     BASH_CMD="bash -x"
+    RSYNC_CMD="rsync -v"
   fi
 }
